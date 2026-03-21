@@ -361,7 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-# Secrets & sensitive config
+# Secrets & sensitive config (create appsettings.secrets.json locally with your keys)
 NotifyDispatchApp/appsettings.secrets.json
 *.secrets.json
 
