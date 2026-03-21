@@ -1,0 +1,189 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<BaseOutputPath>C:\temp\bin</BaseOutputPath>
+		<PushProvider>azure</PushProvider>
+		<TargetFrameworks>net10.0-android</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('osx'))">$(TargetFrameworks);net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
+		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
+		<OutputType>Exe</OutputType>
+		<RootNamespace>NotifyDispatchApp</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<CheckEolTargetFramework>false</CheckEolTargetFramework>
+		<CheckEolWorkloads>false</CheckEolWorkloads>
+		<NoWarn>$(NoWarn);NU1903;MVVMTK0045;CS9113</NoWarn>
+
+		<!-- Display name -->
+		<ApplicationTitle>とやま防災ナビ</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.companyname.notifydispatchapp</ApplicationId>
+		<ApplicationIdGuid>c124664f-fa85-40c2-8a7e-fa21ac523d1f</ApplicationIdGuid>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">26.0</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+	  <ProvisioningType>manual</ProvisioningType>
+	  <CodesignKey>iPhone Distribution</CodesignKey>
+	  <CodesignProvision>com.az-forward.notifydispatchapp</CodesignProvision>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+	  <ApplicationTitle>とやま防災ナビ</ApplicationTitle>
+	  <ApplicationDisplayVersion>1.0.3</ApplicationDisplayVersion>
+	  <ApplicationVersion>7</ApplicationVersion>
+	  <ApplicationId>com.companyname.notifydispatchapp</ApplicationId>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+	  <ApplicationTitle>とやま防災ナビ</ApplicationTitle>
+	  <ApplicationDisplayVersion>1.0.3</ApplicationDisplayVersion>
+	  <ApplicationVersion>6</ApplicationVersion>
+	  <ApplicationId>com.az-forward.notifydispatchapp</ApplicationId>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">
+	  <ApplicationTitle>とやま防災ナビ</ApplicationTitle>
+	  <ApplicationDisplayVersion>1.0.3</ApplicationDisplayVersion>
+	  <ApplicationVersion>6</ApplicationVersion>
+	  <ApplicationId>com.az-forward.notifydispatchapp</ApplicationId>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+	  <ApplicationTitle>とやま防災ナビ</ApplicationTitle>
+	  <ApplicationDisplayVersion>1.0.3</ApplicationDisplayVersion>
+	  <ApplicationVersion>9</ApplicationVersion>
+	  <ApplicationId>com.companyname.notifydispatchapp</ApplicationId>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+	  <ApplicationTitle>とやま防災ナビ</ApplicationTitle>
+	  <ApplicationDisplayVersion>1.0.3</ApplicationDisplayVersion>
+	  <ApplicationVersion>6</ApplicationVersion>
+	  <ApplicationId>com.az-forward.notifydispatchapp</ApplicationId>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">
+	  <ApplicationTitle>とやま防災ナビ</ApplicationTitle>
+	  <ApplicationDisplayVersion>1.0.3</ApplicationDisplayVersion>
+	  <ApplicationVersion>6</ApplicationVersion>
+	  <ApplicationId>com.az-forward.notifydispatchapp</ApplicationId>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<DefineConstants Condition="'$(PushProvider)' == 'azure'">$(DefineConstants);AZURE</DefineConstants>
+		<DefineConstants Condition="'$(PushProvider)' == 'native'">$(DefineConstants);NATIVE</DefineConstants>
+		<DefineConstants Condition="'$(PushProvider)' == 'firebase'">$(DefineConstants);FIREBASE</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appicon.svg" Color="#1B2838" />
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" TintColor="#FF6B6B" Color="#1B2838" BaseSize="200,200" />
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <None Remove="Platforms\iOS\appsettings.apple.json" />
+	  <None Remove="Platforms\iOS\appsettings.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+	  <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.50" />
+	  <PackageReference Include="Microsoft.Maui.Controls.Maps" Version="10.0.50" />
+	  <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+	</ItemGroup>
+
+	<!-- Shiny packages -->
+	<ItemGroup>
+	  <PackageReference Include="Shiny.Core" Version="4.0.0-beta-0040" />
+	  <PackageReference Include="Shiny.Hosting.Maui" Version="4.0.0-beta-0040" />
+	  <PackageReference Include="Shiny.Push" Version="4.0.0-beta-0040" />
+	  <PackageReference Include="Shiny.Push.AzureNotificationHubs" Version="4.0.0-beta-0040" />
+	  <PackageReference Include="Shiny.Support.Repositories" Version="4.0.0-beta-0040" />
+	</ItemGroup>
+
+	<!-- Old appicon.jpg reference removed -->
+
+	<ItemGroup>
+	  <MauiXaml Update="BearInfoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="InfoListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MapPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="SafetyInfoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="SettingsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Dependencies\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<MauiAsset Include="appsettings.json" />
+		<MauiAsset Include="appsettings.secrets.json" Condition="Exists('appsettings.secrets.json')" />
+		<MauiAsset Include="appsettings.apple.json" />
+	</ItemGroup>
+
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+	  <PackageReference Include="Xamarin.Firebase.Messaging" Version="125.0.1.2" />
+	  <PackageReference Include="Xamarin.Google.Android.DataTransport.TransportBackendCct" Version="4.1.0.1" />
+	  <PackageReference Include="Xamarin.Google.Android.DataTransport.TransportRuntime" Version="4.1.0.1" />
+	  <!-- AndroidX バージョン統一（Firebase 125 と Shiny/MAUI の競合解消） -->
+	  <PackageReference Include="Xamarin.AndroidX.Activity.Ktx" Version="1.12.4.1" />
+	  <PackageReference Include="Xamarin.AndroidX.Fragment.Ktx" Version="1.8.9.2" />
+	  <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.10.0.2" />
+	  <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core" Version="2.10.0.2" />
+	  <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core.Ktx" Version="2.10.0.2" />
+	  <PackageReference Include="Xamarin.AndroidX.Lifecycle.Process" Version="2.10.0.2" />
+	  <PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime" Version="2.10.0.2" />
+	  <PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime.Ktx" Version="2.10.0.2" />
+	  <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel.Ktx" Version="2.10.0.2" />
+	  <PackageReference Include="Xamarin.AndroidX.SavedState.SavedState.Ktx" Version="1.4.0.2" />
+	</ItemGroup>
+
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+	  <PackageReference Include="Shiny.Extensions.Configuration">
+	    <Version>4.0.0-beta-0040</Version>
+	  </PackageReference>
+	</ItemGroup>
+
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">
+	  <PackageReference Include="Shiny.Extensions.Configuration">
+	    <Version>4.0.0-beta-0040</Version>
+	  </PackageReference>
+	</ItemGroup>
+
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionNotifyDispatchAppHideInfoBar="True" XamarinHotReloadWrongLinkerErrorInfoBarNotifyDispatchAppHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+
+
+
+</Project>

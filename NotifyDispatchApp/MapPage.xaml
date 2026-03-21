@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NotifyDispatchApp.MapPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
+    Title="地図"
+    BackgroundColor="{StaticResource Background}">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Info Card Overlay -->
+        <Border Grid.Row="0"
+                x:Name="infoCard"
+                StrokeShape="RoundRectangle 0,0,16,16"
+                StrokeThickness="0"
+                BackgroundColor="{StaticResource Surface}"
+                Padding="16,12"
+                ZIndex="10"
+                IsVisible="False">
+            <Border.Shadow>
+                <Shadow Brush="{StaticResource BlackBrush}" Offset="0,2" Radius="8" Opacity="0.08" />
+            </Border.Shadow>
+            <Grid ColumnDefinitions="5,*" ColumnSpacing="12">
+                <BoxView x:Name="statusBar"
+                         Grid.Column="0"
+                         WidthRequest="5"
+                         Color="{StaticResource Secondary}"
+                         CornerRadius="3" />
+                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                    <Label x:Name="lblPlace"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Gray900}"
+                           LineBreakMode="TailTruncation" />
+                    <Label x:Name="lblReason"
+                           FontSize="13"
+                           TextColor="{StaticResource Gray600}" />
+                    <HorizontalStackLayout Spacing="8">
+                        <Label x:Name="lblDateTime"
+                               FontSize="11"
+                               TextColor="{StaticResource Gray400}" />
+                        <Label x:Name="lblRegion"
+                               FontSize="11"
+                               TextColor="{StaticResource Gray400}" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Grid>
+        </Border>
+
+        <!-- Map -->
+        <maps:Map x:Name="map"
+                  Grid.Row="0" Grid.RowSpan="2"
+                  IsShowingUser="True"
+                  MapType="Street" />
+
+        <!-- Error overlay -->
+        <Border Grid.Row="0" Grid.RowSpan="2"
+                x:Name="errorOverlay"
+                IsVisible="False"
+                BackgroundColor="#88000000"
+                StrokeThickness="0">
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="12">
+                <Label Text="📍" FontSize="48" HorizontalOptions="Center" />
+                <Label x:Name="errorLabel"
+                       Text="位置情報の取得に失敗しました"
+                       FontSize="15"
+                       TextColor="White"
+                       HorizontalOptions="Center" />
+                <Button Text="戻る"
+                        BackgroundColor="{StaticResource Secondary}"
+                        TextColor="White"
+                        CornerRadius="20"
+                        Padding="24,10"
+                        Clicked="OnBackClicked"
+                        HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </Border>
+
+    </Grid>
+
+</ContentPage>

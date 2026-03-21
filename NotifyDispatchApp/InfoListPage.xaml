@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NotifyDispatchApp.InfoListPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodel="clr-namespace:NotifyDispatchApp"
+    xmlns:models="clr-namespace:NotifyDispatchApp.Models"
+    xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
+    x:DataType="viewmodel:InfoListPageViewModel"
+    Title="消防出動情報"
+    BackgroundColor="{StaticResource Background}"
+    AutomationId="InfoListPageView">
+
+    <Grid>
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto" RowSpacing="0">
+
+        <!-- ═══ Row 0: Search Bar + Region Dropdown ═══ -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="8"
+              Margin="12,10,12,4">
+            <Border Grid.Column="0"
+                    StrokeShape="RoundRectangle 12"
+                    StrokeThickness="0"
+                    BackgroundColor="{StaticResource Surface}"
+                    Padding="4,0"
+                    AutomationId="SearchBar">
+                <SearchBar Placeholder="場所・理由で検索..."
+                           Text="{Binding SearchText, Mode=TwoWay}"
+                           SearchCommand="{Binding SearchCommand}"
+                           TextChanged="OnSearchTextChanged"
+                           FontSize="14"
+                           CancelButtonColor="{StaticResource Gray500}" />
+            </Border>
+            <Border Grid.Column="1"
+                    StrokeShape="RoundRectangle 12"
+                    StrokeThickness="1.5"
+                    Stroke="#3B82F6"
+                    BackgroundColor="White"
+                    Padding="10,0"
+                    MinimumWidthRequest="110"
+                    IsVisible="{Binding HasRegions}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnRegionDropdownTapped" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                    <Label Text="📍" FontSize="12" VerticalOptions="Center"
+                           TextColor="{AppThemeBinding Light=Black, Dark=Black}" />
+                    <Label x:Name="lblSelectedRegion"
+                           Text="{Binding SelectedRegion}"
+                           FontSize="13" FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light=Black, Dark=Black}"
+                           VerticalOptions="Center"
+                           LineBreakMode="TailTruncation" />
+                    <Label Text="▼" FontSize="9"
+                           TextColor="{AppThemeBinding Light=#6B7280, Dark=#6B7280}"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Border>
+        </Grid>
+
+        <!-- ═══ Row 1: Error Banner ═══ -->
+        <Border Grid.Row="1"
+                IsVisible="{Binding HasError}"
+                BackgroundColor="#FFF3E0"
+                StrokeThickness="0"
+                Padding="12,8"
+                Margin="12,4,12,0"
+                StrokeShape="RoundRectangle 10">
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                <Label Grid.Column="0" Text="⚠️" FontSize="16" VerticalOptions="Center" />
+                <Label Grid.Column="1"
+                       Text="{Binding ErrorMessage}"
+                       FontSize="12"
+                       TextColor="#E65100"
+                       VerticalOptions="Center"
+                       LineBreakMode="TailTruncation" />
+                <Button Grid.Column="2" Text="✕"
+                        BackgroundColor="Transparent"
+                        TextColor="#E65100"
+                        FontSize="14"
+                        Command="{Binding DismissErrorCommand}"
+                        Padding="8,4"
+                        WidthRequest="36" HeightRequest="36" />
+            </Grid>
+        </Border>
+
+        <!-- ═══ Row 2: Status Summary ═══ -->
+        <Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,*,Auto" Margin="14,6,14,4" ColumnSpacing="8">
+            <Border Grid.Column="0" StrokeShape="RoundRectangle 10" StrokeThickness="0"
+                    BackgroundColor="#FFEBEE" Padding="8,4">
+                <HorizontalStackLayout Spacing="5">
+                    <Border StrokeShape="RoundRectangle 4" StrokeThickness="0"
+                            BackgroundColor="{StaticResource Secondary}" HeightRequest="8" WidthRequest="8"
+                            VerticalOptions="Center" />
+                    <Label Text="{Binding ActiveCount, StringFormat='出動中 {0}'}" FontSize="11"
+                           FontAttributes="Bold" TextColor="{StaticResource Secondary}" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Border>
+            <Border Grid.Column="1" StrokeShape="RoundRectangle 10" StrokeThickness="0"
+                    BackgroundColor="#E8F5E9" Padding="8,4">
+                <HorizontalStackLayout Spacing="5">
+                    <Border StrokeShape="RoundRectangle 4" StrokeThickness="0"
+                            BackgroundColor="{StaticResource Success}" HeightRequest="8" WidthRequest="8"
+                            VerticalOptions="Center" />
+                    <Label Text="{Binding CompletedCount, StringFormat='鎮火 {0}'}" FontSize="11"
+                           TextColor="{StaticResource Success}" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Border>
+            <Label Grid.Column="3" Text="{Binding LastUpdatedText}" FontSize="10"
+                   TextColor="{StaticResource Gray400}" VerticalOptions="Center" />
+        </Grid>
+
+        <!-- ═══ Row 3: Map Layer Chips (マップモード時のみ表示) ═══ -->
+        <ScrollView Grid.Row="3" Orientation="Horizontal" HorizontalScrollBarVisibility="Never"
+                     Margin="12,2,12,4"
+                     IsVisible="{Binding IsMapMode}">
+            <HorizontalStackLayout Spacing="8">
+                <Border x:Name="chipActive" StrokeShape="RoundRectangle 20"
+                        StrokeThickness="2" Stroke="#FF6B6B" BackgroundColor="#FFEBEE"
+                        Padding="14,7">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToggleActiveCommand}" />
+                    </Border.GestureRecognizers>
+                    <HorizontalStackLayout Spacing="6">
+                        <Label Text="🔥" FontSize="13" VerticalOptions="Center" />
+                        <Label Text="出動中" FontSize="12" FontAttributes="Bold" TextColor="#FF6B6B" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+                <Border x:Name="chipCompleted" StrokeShape="RoundRectangle 20"
+                        StrokeThickness="2" Stroke="#2ECC71" BackgroundColor="#E8F5E9"
+                        Padding="14,7">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToggleCompletedCommand}" />
+                    </Border.GestureRecognizers>
+                    <HorizontalStackLayout Spacing="6">
+                        <Label Text="✅" FontSize="13" VerticalOptions="Center" />
+                        <Label Text="鎮火" FontSize="12" FontAttributes="Bold" TextColor="#2ECC71" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <!-- ═══ Row 4: List / Map content ═══ -->
+
+        <!-- List view (リストモード) -->
+        <RefreshView Grid.Row="4"
+                     IsRefreshing="{Binding IsBusy}"
+                     Command="{Binding RefreshCommand}"
+                     RefreshColor="{StaticResource Secondary}"
+                     IsVisible="{Binding IsMapMode, Converter={StaticResource InvertedBoolConverter}}">
+            <CollectionView
+                x:Name="dispatch_infos"
+                AutomationId="DispatchInfoList"
+                ItemsSource="{Binding FilteredDispatchInfo}"
+                SelectionMode="Single"
+                SelectionChanged="dispatch_infos_SelectionChanged"
+                Margin="12,0">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="12" Padding="0,60">
+                        <Label Text="📋" FontSize="48" HorizontalOptions="Center" />
+                        <Label Text="データがありません" FontSize="16" FontAttributes="Bold"
+                               TextColor="{StaticResource Gray600}" HorizontalOptions="Center" />
+                        <Label Text="下にスワイプして更新" FontSize="13"
+                               TextColor="{StaticResource Gray400}" HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="6" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:DispatchInfo">
+                        <Border StrokeShape="RoundRectangle 12" BackgroundColor="{StaticResource Surface}"
+                                StrokeThickness="0" Padding="0" Margin="0,1">
+                            <Border.Shadow>
+                                <Shadow Brush="{StaticResource BlackBrush}" Offset="0,1" Radius="4" Opacity="0.04" />
+                            </Border.Shadow>
+                            <Grid ColumnDefinitions="4,*">
+                                <BoxView Grid.Column="0" WidthRequest="4" CornerRadius="2,0,2,0">
+                                    <BoxView.Triggers>
+                                        <DataTrigger TargetType="BoxView" Binding="{Binding IsCompleted}" Value="False">
+                                            <Setter Property="Color" Value="{StaticResource Secondary}" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="BoxView" Binding="{Binding IsCompleted}" Value="True">
+                                            <Setter Property="Color" Value="{StaticResource Success}" />
+                                        </DataTrigger>
+                                    </BoxView.Triggers>
+                                </BoxView>
+                                <Grid Grid.Column="1" RowDefinitions="Auto,Auto,Auto" Padding="12,10">
+                                    <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+                                        <Label Text="{Binding Place}" FontSize="14" FontAttributes="Bold"
+                                               TextColor="{StaticResource Gray900}" LineBreakMode="TailTruncation" />
+                                        <Border Grid.Column="1" StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                                                Padding="6,2" VerticalOptions="Center">
+                                            <Border.Triggers>
+                                                <DataTrigger TargetType="Border" Binding="{Binding IsCompleted}" Value="False">
+                                                    <Setter Property="BackgroundColor" Value="#FFEBEE" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Border" Binding="{Binding IsCompleted}" Value="True">
+                                                    <Setter Property="BackgroundColor" Value="#E8F5E9" />
+                                                </DataTrigger>
+                                            </Border.Triggers>
+                                            <Label FontSize="9" FontAttributes="Bold">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding IsCompleted}" Value="False">
+                                                        <Setter Property="Text" Value="出動中" />
+                                                        <Setter Property="TextColor" Value="{StaticResource Secondary}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding IsCompleted}" Value="True">
+                                                        <Setter Property="Text" Value="鎮火" />
+                                                        <Setter Property="TextColor" Value="{StaticResource Success}" />
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                        </Border>
+                                    </Grid>
+                                    <Label Grid.Row="1" Text="{Binding Reason}" FontSize="12"
+                                           TextColor="{StaticResource Gray600}" Margin="0,3,0,5"
+                                           LineBreakMode="TailTruncation" />
+                                    <Grid Grid.Row="2" ColumnDefinitions="Auto,*,Auto">
+                                        <HorizontalStackLayout Spacing="4">
+                                            <Label Text="🕐" FontSize="10" VerticalOptions="Center" />
+                                            <Label Text="{Binding StrDateTime}" FontSize="10"
+                                                   TextColor="{StaticResource Gray400}" VerticalOptions="Center" />
+                                        </HorizontalStackLayout>
+                                        <Border Grid.Column="2" StrokeShape="RoundRectangle 6" StrokeThickness="0"
+                                                Padding="6,2" BackgroundColor="{StaticResource Gray100}">
+                                            <Label Text="{Binding Region}" FontSize="9" TextColor="{StaticResource Gray600}" />
+                                        </Border>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <!-- Map view (マップモード) -->
+        <Grid Grid.Row="4" IsVisible="{Binding IsMapMode}">
+            <maps:Map x:Name="dispatchMap"
+                      IsShowingUser="True"
+                      MapType="Street" />
+        </Grid>
+
+        <!-- ═══ Row 5: Footer with toggle button ═══ -->
+        <Border Grid.Row="5" BackgroundColor="{StaticResource Surface}" StrokeThickness="0" Padding="14,8">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <Button Grid.Column="0"
+                        x:Name="btnToggleView"
+                        Text="🗺️ マップ"
+                        FontSize="12" Padding="12,6"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        CornerRadius="16"
+                        Command="{Binding ToggleMapModeCommand}" />
+                <Label Grid.Column="2" x:Name="LblCount" AutomationId="CountLabel"
+                       Text="{Binding FilteredDispatchInfo.Count, StringFormat='件数: {0}'}"
+                       FontSize="11" TextColor="{StaticResource Gray500}" VerticalOptions="Center" />
+            </Grid>
+        </Border>
+    </Grid>
+
+    <!-- ═══ Region Search Popup ═══ -->
+    <Grid x:Name="regionPopup" IsVisible="False" InputTransparent="False"
+          BackgroundColor="#80000000" ZIndex="900">
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnRegionPopupBackdropTapped" />
+        </Grid.GestureRecognizers>
+        <Border StrokeShape="RoundRectangle 16" StrokeThickness="0"
+                BackgroundColor="White"
+                VerticalOptions="Center" HorizontalOptions="Center"
+                WidthRequest="300" MaximumHeightRequest="400"
+                Padding="0">
+            <Border.Shadow>
+                <Shadow Brush="{StaticResource BlackBrush}" Offset="0,4" Radius="16" Opacity="0.15" />
+            </Border.Shadow>
+            <!-- ポップアップ自体のタップでは閉じない -->
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnRegionPopupContentTapped" />
+            </Border.GestureRecognizers>
+            <VerticalStackLayout Spacing="0">
+                <Label Text="地域を選択" FontSize="15" FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light=#1F2933, Dark=#1F2933}"
+                       Margin="16,14,16,6" />
+                <Border StrokeShape="RoundRectangle 10" StrokeThickness="1"
+                        Stroke="#D0D5DD"
+                        BackgroundColor="#F8F9FA"
+                        Margin="12,4,12,8" Padding="8,0">
+                    <Entry x:Name="regionSearchEntry"
+                           Placeholder="🔍 地域名で検索..."
+                           PlaceholderColor="#9CA3AF"
+                           TextColor="{AppThemeBinding Light=#1F2933, Dark=#1F2933}"
+                           FontSize="14"
+                           TextChanged="OnRegionSearchTextChanged"
+                           ClearButtonVisibility="WhileEditing" />
+                </Border>
+                <CollectionView x:Name="regionSearchResults"
+                                SelectionMode="Single"
+                                SelectionChanged="OnRegionSearchResultSelected"
+                                HeightRequest="250">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border StrokeThickness="0" Padding="16,12"
+                                    BackgroundColor="Transparent">
+                                <Label Text="{Binding .}" FontSize="14"
+                                       TextColor="{AppThemeBinding Light=#1F2933, Dark=#1F2933}" />
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+
+    <!-- (Modal Loading Overlay removed - RefreshView handles loading state) -->
+    </Grid>
+
+</ContentPage>

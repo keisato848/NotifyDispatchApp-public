@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net10.0-android</TargetFrameworks>
+		<OutputType>Exe</OutputType>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>NotifyDispatchApp.DeviceTests</RootNamespace>
+		<BaseOutputPath>C:\temp\bin\DeviceTests</BaseOutputPath>
+		<NoWarn>$(NoWarn);NU1903</NoWarn>
+
+		<ApplicationTitle>NotifyDispatch DeviceTests</ApplicationTitle>
+		<ApplicationId>com.notifydispatch.devicetests</ApplicationId>
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">26.0</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<!-- メインプロジェクトのソースファイルをリンク -->
+	<ItemGroup>
+		<Compile Include="..\NotifyDispatchApp\Models\DispatchInfo.cs" Link="Shared\Models\DispatchInfo.cs" />
+		<Compile Include="..\NotifyDispatchApp\Models\BearSighting.cs" Link="Shared\Models\BearSighting.cs" />
+		<Compile Include="..\NotifyDispatchApp\Models\ApiResponse.cs" Link="Shared\Models\ApiResponse.cs" />
+		<Compile Include="..\NotifyDispatchApp\Models\FetchResult.cs" Link="Shared\Models\FetchResult.cs" />
+		<Compile Include="..\NotifyDispatchApp\Models\GeoInfo.cs" Link="Shared\Models\GeoInfo.cs" />
+		<Compile Include="..\NotifyDispatchApp\Models\GeoResponse.cs" Link="Shared\Models\GeoResponse.cs" />
+		<Compile Include="..\NotifyDispatchApp\Services\DispatchService.cs" Link="Shared\Services\DispatchService.cs" />
+		<Compile Include="..\NotifyDispatchApp\Services\LocalCacheService.cs" Link="Shared\Services\LocalCacheService.cs" />
+		<Compile Include="..\NotifyDispatchApp\Services\AppJsonContext.cs" Link="Shared\Services\AppJsonContext.cs" />
+		<Compile Include="..\NotifyDispatchApp\Services\MauiConnectivityService.cs" Link="Shared\Services\MauiConnectivityService.cs" />
+		<Compile Include="..\NotifyDispatchApp\InfoListPageViewModel.cs" Link="Shared\InfoListPageViewModel.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="DeviceRunners.VisualRunners.Maui" Version="0.1.0-preview.6" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.50" />
+		<PackageReference Include="Shiny.Push" Version="4.0.0-beta-0040" />
+		<PackageReference Include="xunit" Version="2.9.0" />
+	</ItemGroup>
+
+</Project>

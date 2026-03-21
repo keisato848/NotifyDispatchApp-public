@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- Primary Palette — Deep Navy + Coral Accent  -->
+    <!-- ═══════════════════════════════════════════ -->
+    <Color x:Key="Primary">#1B2838</Color>
+    <Color x:Key="PrimaryLight">#2A3F54</Color>
+    <Color x:Key="PrimaryDark">#0F1923</Color>
+    <Color x:Key="Secondary">#FF6B6B</Color>
+    <Color x:Key="SecondaryLight">#FF8E8E</Color>
+    <Color x:Key="Tertiary">#4ECDC4</Color>
+    <Color x:Key="TertiaryLight">#7EDDD7</Color>
+
+    <!-- Semantic Colors -->
+    <Color x:Key="Accent">#FF6B6B</Color>
+    <Color x:Key="Success">#2ECC71</Color>
+    <Color x:Key="Warning">#F39C12</Color>
+    <Color x:Key="Danger">#E74C3C</Color>
+    <Color x:Key="Info">#3498DB</Color>
+
+    <!-- Base -->
+    <Color x:Key="White">#FFFFFF</Color>
+    <Color x:Key="Black">#000000</Color>
+
+    <!-- Surface / Background -->
+    <Color x:Key="Surface">#FFFFFF</Color>
+    <Color x:Key="SurfaceVariant">#F7F8FA</Color>
+    <Color x:Key="Background">#F0F2F5</Color>
+
+    <!-- Neutrals -->
+    <Color x:Key="Gray50">#F8F9FA</Color>
+    <Color x:Key="Gray100">#F0F2F5</Color>
+    <Color x:Key="Gray200">#E4E7EB</Color>
+    <Color x:Key="Gray300">#CBD2D9</Color>
+    <Color x:Key="Gray400">#9AA5B4</Color>
+    <Color x:Key="Gray500">#7B8794</Color>
+    <Color x:Key="Gray600">#616E7C</Color>
+    <Color x:Key="Gray700">#52606D</Color>
+    <Color x:Key="Gray900">#1F2933</Color>
+    <Color x:Key="Gray950">#141414</Color>
+
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}" />
+    <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}" />
+    <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}" />
+    <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}" />
+    <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource Black}" />
+    <SolidColorBrush x:Key="Gray100Brush" Color="{StaticResource Gray100}" />
+    <SolidColorBrush x:Key="Gray200Brush" Color="{StaticResource Gray200}" />
+    <SolidColorBrush x:Key="Gray300Brush" Color="{StaticResource Gray300}" />
+    <SolidColorBrush x:Key="Gray400Brush" Color="{StaticResource Gray400}" />
+    <SolidColorBrush x:Key="Gray500Brush" Color="{StaticResource Gray500}" />
+    <SolidColorBrush x:Key="Gray600Brush" Color="{StaticResource Gray600}" />
+    <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}" />
+    <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}" />
+
+    <!-- Legacy Accent (keep for compatibility) -->
+    <Color x:Key="Yellow100Accent">#F7B548</Color>
+    <Color x:Key="Yellow200Accent">#FFD590</Color>
+    <Color x:Key="Yellow300Accent">#FFE5B9</Color>
+    <Color x:Key="Cyan100Accent">#4ECDC4</Color>
+    <Color x:Key="Cyan200Accent">#7EDDD7</Color>
+    <Color x:Key="Cyan300Accent">#B8EDE9</Color>
+    <Color x:Key="Blue100Accent">#3498DB</Color>
+    <Color x:Key="Blue200Accent">#5DADE2</Color>
+    <Color x:Key="Blue300Accent">#85C1E9</Color>
+
+    <!-- ═══════════════════════════════ -->
+    <!-- Dark Mode Palette              -->
+    <!-- ═══════════════════════════════ -->
+    <Color x:Key="DarkBackground">#121212</Color>
+    <Color x:Key="DarkSurface">#1E1E1E</Color>
+    <Color x:Key="DarkSurfaceVariant">#2C2C2C</Color>
+    <Color x:Key="DarkTextPrimary">#E0E0E0</Color>
+    <Color x:Key="DarkTextSecondary">#9E9E9E</Color>
+
+</ResourceDictionary>

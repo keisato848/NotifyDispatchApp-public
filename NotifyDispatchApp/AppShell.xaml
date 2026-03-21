@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="NotifyDispatchApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:NotifyDispatchApp"
+    FlyoutBehavior="Flyout"
+    FlyoutWidth="300"
+    FlyoutBackgroundColor="{StaticResource Primary}"
+    Shell.BackgroundColor="{StaticResource Primary}"
+    Shell.ForegroundColor="{StaticResource White}"
+    Shell.TitleColor="{StaticResource White}"
+    Shell.NavBarHasShadow="True">
+
+    <!-- Flyout Header -->
+    <Shell.FlyoutHeader>
+        <Grid BackgroundColor="{StaticResource PrimaryDark}" Padding="24,48,24,24" RowDefinitions="Auto,Auto">
+            <Label Grid.Row="0"
+                   Text="🔔 とやま防災ナビ"
+                   FontSize="22"
+                   FontAttributes="Bold"
+                   TextColor="White" />
+            <Label Grid.Row="1"
+                   Text="富山県 防災・安全情報"
+                   FontSize="13"
+                   TextColor="{StaticResource Gray400}"
+                   Margin="0,4,0,0" />
+        </Grid>
+    </Shell.FlyoutHeader>
+
+    <!-- Flyout Item Template -->
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid ColumnDefinitions="Auto,*" Padding="20,14" ColumnSpacing="16">
+                <Image Source="{Binding FlyoutIcon}"
+                       HeightRequest="22" WidthRequest="22"
+                       VerticalOptions="Center" />
+                <Label Grid.Column="1"
+                       Text="{Binding Title}"
+                       FontSize="15"
+                       TextColor="White"
+                       VerticalOptions="Center" />
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+
+    <FlyoutItem Title="消防出動情報" FlyoutIcon="fire.png" Route="InfoListPage">
+        <ShellContent
+            Title="消防出動情報"
+            ContentTemplate="{DataTemplate local:InfoListPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="熊出没情報" FlyoutIcon="bear.png" Route="BearInfoPage">
+        <ShellContent
+            Title="熊出没情報"
+            ContentTemplate="{DataTemplate local:BearInfoPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="安全情報" FlyoutIcon="safety.png" Route="SafetyInfoPage">
+        <ShellContent
+            Title="安全情報"
+            ContentTemplate="{DataTemplate local:SafetyInfoPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="設定" FlyoutIcon="settings.png" Route="SettingsPage">
+        <ShellContent
+            Title="設定"
+            ContentTemplate="{DataTemplate local:SettingsPage}" />
+    </FlyoutItem>
+
+</Shell>

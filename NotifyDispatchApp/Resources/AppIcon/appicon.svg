@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1B2838"/>
+      <stop offset="100%" style="stop-color:#0F1923"/>
+    </linearGradient>
+    <linearGradient id="fireGrad" x1="50%" y1="100%" x2="50%" y2="0%">
+      <stop offset="0%" style="stop-color:#FF6B6B"/>
+      <stop offset="40%" style="stop-color:#FF8E53"/>
+      <stop offset="100%" style="stop-color:#FFC837"/>
+    </linearGradient>
+    <linearGradient id="bellGrad" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF"/>
+      <stop offset="100%" style="stop-color:#E0E0E0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect width="512" height="512" rx="108" fill="url(#bgGrad)"/>
+
+  <!-- Fire/flame icon -->
+  <path d="M256 88c0 0-72 80-72 152c0 20 4 38 12 54
+           c-12-8-20-22-24-38c-16 28-24 52-24 72c0 72 48 120 108 120
+           s108-48 108-120c0-20-8-44-24-72c-4 16-12 30-24 38
+           c8-16 12-34 12-54c0-72-72-152-72-152z"
+        fill="url(#fireGrad)" opacity="0.9"/>
+
+  <!-- Inner flame -->
+  <path d="M256 200c0 0-36 48-36 92c0 12 2 24 8 34
+           c-8-6-14-16-16-28c-8 16-12 32-12 44c0 44 24 72 56 72
+           s56-28 56-72c0-12-4-28-12-44c-2 12-8 22-16 28
+           c6-10 8-22 8-34c0-44-36-92-36-92z"
+        fill="#FFC837" opacity="0.85"/>
+
+  <!-- Notification bell -->
+  <g transform="translate(330, 100) scale(0.55)">
+    <!-- Bell body -->
+    <path d="M80 20c-4-12-16-20-30-20s-26 8-30 20
+             C8 24 0 36 0 52v28c0 4 2 8 4 10h92c2-2 4-6 4-10V52
+             c0-16-8-28-20-32z"
+          fill="url(#bellGrad)"/>
+    <!-- Bell bottom -->
+    <ellipse cx="50" cy="96" rx="14" ry="8" fill="#E0E0E0"/>
+    <!-- Sound wave left -->
+    <path d="M-10 40c-6-4-12 0-12 8s6 16 12 12" fill="none"
+          stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+    <!-- Sound wave right -->
+    <path d="M110 40c6-4 12 0 12 8s-6 16-12 12" fill="none"
+          stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+    <!-- Red dot (notification badge) -->
+    <circle cx="82" cy="8" r="14" fill="#FF6B6B"/>
+    <circle cx="82" cy="8" r="6" fill="white"/>
+  </g>
+
+</svg>

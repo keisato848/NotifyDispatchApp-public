@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>NotifyDispatchApp</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\NotifyDispatchApp\Models\DispatchInfo.cs" Link="Models\DispatchInfo.cs" />
+    <Compile Include="..\NotifyDispatchApp\Models\GeoInfo.cs" Link="Models\GeoInfo.cs" />
+    <Compile Include="..\NotifyDispatchApp\Models\GeoResponse.cs" Link="Models\GeoResponse.cs" />
+    <Compile Include="..\NotifyDispatchApp\Models\BearSighting.cs" Link="Models\BearSighting.cs" />
+    <Compile Include="..\NotifyDispatchApp\Models\ApiResponse.cs" Link="Models\ApiResponse.cs" />
+    <Compile Include="..\NotifyDispatchApp\Models\FetchResult.cs" Link="Models\FetchResult.cs" />
+    <Compile Include="..\NotifyDispatchApp\Services\DispatchService.cs" Link="Services\DispatchService.cs" />
+    <Compile Include="..\NotifyDispatchApp\Services\BearSightingService.cs" Link="Services\BearSightingService.cs" />
+    <Compile Include="..\NotifyDispatchApp\Services\LocalCacheService.cs" Link="Services\LocalCacheService.cs" />
+    <Compile Include="..\NotifyDispatchApp\Services\AppJsonContext.cs" Link="Services\AppJsonContext.cs" />
+    <Compile Include="..\NotifyDispatchApp\Controls\ClusterItem.cs" Link="Controls\ClusterItem.cs" />
+    <Compile Include="..\NotifyDispatchApp\Controls\GeoClusterer.cs" Link="Controls\GeoClusterer.cs" />
+  </ItemGroup>
+</Project>

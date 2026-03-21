@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NotifyDispatchApp.BearInfoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:NotifyDispatchApp.Controls"
+    xmlns:vm="clr-namespace:NotifyDispatchApp"
+    xmlns:models="clr-namespace:NotifyDispatchApp.Models"
+    x:DataType="vm:BearInfoPageViewModel"
+    Title="熊出没情報"
+    AutomationId="BearInfoPageView"
+    BackgroundColor="{StaticResource Background}">
+
+    <Grid>
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" RowSpacing="0">
+
+        <!-- ═══ Row 0: Layer Chips ═══ -->
+        <ScrollView Grid.Row="0" Orientation="Horizontal" HorizontalScrollBarVisibility="Never"
+                     Margin="12,10,12,0">
+            <HorizontalStackLayout Spacing="8">
+                <!-- 目撃レイヤー -->
+                <Border x:Name="chipSighting" StrokeShape="RoundRectangle 20"
+                        StrokeThickness="1.5" Stroke="#E53935" BackgroundColor="#FFEBEE"
+                        Padding="14,8">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToggleLayerCommand}" CommandParameter="sighting" />
+                    </Border.GestureRecognizers>
+                    <HorizontalStackLayout Spacing="6">
+                        <Label Text="👁️" FontSize="14" VerticalOptions="Center" />
+                        <Label Text="目撃" FontSize="12" FontAttributes="Bold" TextColor="#E53935" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+
+                <!-- 痕跡レイヤー -->
+                <Border x:Name="chipTrace" StrokeShape="RoundRectangle 20"
+                        StrokeThickness="1.5" Stroke="#FB8C00" BackgroundColor="#FFF3E0"
+                        Padding="14,8">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToggleLayerCommand}" CommandParameter="trace" />
+                    </Border.GestureRecognizers>
+                    <HorizontalStackLayout Spacing="6">
+                        <Label Text="🐾" FontSize="14" VerticalOptions="Center" />
+                        <Label Text="痕跡" FontSize="12" FontAttributes="Bold" TextColor="#FB8C00" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+
+                <!-- 被害レイヤー -->
+                <Border x:Name="chipDamage" StrokeShape="RoundRectangle 20"
+                        StrokeThickness="1.5" Stroke="#8E24AA" BackgroundColor="#F3E5F5"
+                        Padding="14,8">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToggleLayerCommand}" CommandParameter="damage" />
+                    </Border.GestureRecognizers>
+                    <HorizontalStackLayout Spacing="6">
+                        <Label Text="⚠️" FontSize="14" VerticalOptions="Center" />
+                        <Label Text="被害" FontSize="12" FontAttributes="Bold" TextColor="#8E24AA" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <!-- ═══ Row 1: Period Chips ═══ -->
+        <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never"
+                     Margin="12,6,12,4">
+            <HorizontalStackLayout x:Name="periodChipsContainer" Spacing="6" />
+        </ScrollView>
+
+        <!-- ═══ Row 2: Error Banner ═══ -->
+        <Border Grid.Row="2"
+                IsVisible="{Binding HasError}"
+                BackgroundColor="#FFF3E0"
+                StrokeThickness="0"
+                Padding="12,8"
+                Margin="12,4,12,0"
+                StrokeShape="RoundRectangle 10">
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                <Label Grid.Column="0" Text="⚠️" FontSize="16" VerticalOptions="Center" />
+                <Label Grid.Column="1" Text="{Binding ErrorMessage}" FontSize="12"
+                       TextColor="#E65100" VerticalOptions="Center" />
+                <Button Grid.Column="2" Text="✕" BackgroundColor="Transparent"
+                        TextColor="#E65100" FontSize="14"
+                        Command="{Binding DismissErrorCommand}" Padding="8,4"
+                        WidthRequest="36" HeightRequest="36" />
+            </Grid>
+        </Border>
+
+        <!-- ═══ Row 3: Map ═══ -->
+        <Grid Grid.Row="3">
+            <controls:ClusterMap x:Name="bearMap"
+                                  ItemsSource="{Binding VisibleSightings}"
+                                  IsShowingUser="True"
+                                  MapTypeValue="0" />
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                               Color="{StaticResource Warning}"
+                               VerticalOptions="Center" HorizontalOptions="Center"
+                               HeightRequest="44" WidthRequest="44" />
+        </Grid>
+
+        <!-- ═══ Row 4: Bottom Info Bar ═══ -->
+        <Border Grid.Row="4" BackgroundColor="{StaticResource Surface}" StrokeThickness="0" Padding="14,8">
+            <Border.Shadow>
+                <Shadow Brush="{StaticResource BlackBrush}" Offset="0,-1" Radius="4" Opacity="0.06" />
+            </Border.Shadow>
+            <Grid ColumnDefinitions="Auto,Auto,*,Auto" ColumnSpacing="10">
+                <Border Grid.Column="0" StrokeShape="RoundRectangle 10" StrokeThickness="0"
+                        BackgroundColor="#FFF3E0" Padding="8,4">
+                    <HorizontalStackLayout Spacing="4">
+                        <Label Text="🐻" FontSize="12" VerticalOptions="Center" />
+                        <Label Text="{Binding TotalCount, StringFormat='表示 {0}件'}" FontSize="11"
+                               FontAttributes="Bold" TextColor="#E65100" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+                <Border Grid.Column="1" StrokeShape="RoundRectangle 10" StrokeThickness="0"
+                        BackgroundColor="#E3F2FD" Padding="8,4">
+                    <HorizontalStackLayout Spacing="4">
+                        <Label Text="📋" FontSize="10" VerticalOptions="Center" />
+                        <Label Text="{Binding PeriodFilteredCount, StringFormat='期間内 {0}件'}" FontSize="11"
+                               TextColor="#1565C0" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+                <Label Grid.Column="3" Text="{Binding SelectedPeriod.Label, StringFormat='📅 {0}'}" FontSize="10"
+                       TextColor="{StaticResource Gray400}" VerticalOptions="Center" />
+            </Grid>
+        </Border>
+
+    </Grid>
+    </Grid>
+
+</ContentPage>

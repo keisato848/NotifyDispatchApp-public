@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="fireGrad" x1="50%" y1="100%" x2="50%" y2="0%">
+      <stop offset="0%" style="stop-color:#FF6B6B"/>
+      <stop offset="50%" style="stop-color:#FF8E53"/>
+      <stop offset="100%" style="stop-color:#FFC837"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fire icon (centered, white for TintColor support) -->
+  <path d="M256 48c0 0-100 110-100 210c0 28 6 52 16 74
+           c-16-12-28-30-32-52c-22 38-34 72-34 100c0 100 66 164 150 164
+           s150-64 150-164c0-28-12-62-34-100c-4 22-16 40-32 52
+           c10-22 16-46 16-74c0-100-100-210-100-210z"
+        fill="white"/>
+
+  <!-- Inner flame -->
+  <path d="M256 188c0 0-52 64-52 128c0 18 4 34 12 48
+           c-12-8-20-22-24-38c-12 22-18 44-18 62c0 62 36 100 82 100
+           s82-38 82-100c0-18-6-40-18-62c-4 16-12 30-24 38
+           c8-14 12-30 12-48c0-64-52-128-52-128z"
+        fill="white" opacity="0.6"/>
+
+  <!-- Notification bell (top right) -->
+  <g transform="translate(340, 60) scale(0.5)">
+    <path d="M80 20c-4-12-16-20-30-20s-26 8-30 20
+             C8 24 0 36 0 52v28c0 4 2 8 4 10h92c2-2 4-6 4-10V52
+             c0-16-8-28-20-32z"
+          fill="white"/>
+    <ellipse cx="50" cy="96" rx="14" ry="8" fill="white"/>
+    <circle cx="82" cy="6" r="14" fill="white"/>
+  </g>
+</svg>

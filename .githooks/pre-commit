@@ -1,0 +1,18 @@
+#!/bin/sh
+# pre-commit hook: ビルドエラーがある場合コミットをブロック
+# 有効化: cp .githooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+
+echo "🔨 Pre-commit: ビルド検証中..."
+
+dotnet build NotifyDispatchApp.Tests/NotifyDispatchApp.Tests.csproj -v minimal --nologo 2>&1
+BUILD_RESULT=$?
+
+if [ $BUILD_RESULT -ne 0 ]; then
+    echo ""
+    echo "❌ ビルドエラーがあります。コミットを中止します。"
+    echo "   エラーを修正してから再度コミットしてください。"
+    exit 1
+fi
+
+echo "✅ ビルド成功。コミットを続行します。"
+exit 0

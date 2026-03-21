@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NotifyDispatchApp.SafetyInfoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="安全情報"
+    AutomationId="SafetyInfoPageView"
+    BackgroundColor="{StaticResource Background}">
+
+    <Grid RowDefinitions="Auto,*" Padding="20" RowSpacing="16">
+
+        <!-- Header Card -->
+        <Border Grid.Row="0"
+                StrokeShape="RoundRectangle 16"
+                StrokeThickness="0"
+                BackgroundColor="{StaticResource Surface}"
+                Padding="20,16">
+            <Border.Shadow>
+                <Shadow Brush="{StaticResource BlackBrush}" Offset="0,2" Radius="8" Opacity="0.06" />
+            </Border.Shadow>
+            <HorizontalStackLayout Spacing="14">
+                <Border StrokeShape="RoundRectangle 14"
+                        StrokeThickness="0"
+                        BackgroundColor="#E3F2FD"
+                        HeightRequest="52" WidthRequest="52"
+                        Padding="0">
+                    <Label Text="🚨" FontSize="28" VerticalOptions="Center" HorizontalOptions="Center" />
+                </Border>
+                <VerticalStackLayout VerticalOptions="Center" Spacing="4">
+                    <Label Text="安全情報"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Gray900}" />
+                    <Label Text="交通事故・不審者情報"
+                           FontSize="13"
+                           TextColor="{StaticResource Gray500}" />
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+        </Border>
+
+        <!-- Placeholder -->
+        <Border Grid.Row="1"
+                StrokeShape="RoundRectangle 16"
+                StrokeThickness="0"
+                BackgroundColor="{StaticResource Surface}"
+                Padding="24">
+            <Border.Shadow>
+                <Shadow Brush="{StaticResource BlackBrush}" Offset="0,2" Radius="8" Opacity="0.06" />
+            </Border.Shadow>
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="16">
+                <Border StrokeShape="RoundRectangle 30"
+                        StrokeThickness="0"
+                        BackgroundColor="{StaticResource Gray100}"
+                        HeightRequest="80" WidthRequest="80"
+                        HorizontalOptions="Center"
+                        Padding="0">
+                    <Label Text="🚧" FontSize="36" VerticalOptions="Center" HorizontalOptions="Center" />
+                </Border>
+                <Label Text="準備中"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       TextColor="{StaticResource Gray900}" />
+                <Label Text="この画面は今後実装予定です"
+                       FontSize="13"
+                       HorizontalOptions="Center"
+                       TextColor="{StaticResource Gray500}" />
+            </VerticalStackLayout>
+        </Border>
+
+    </Grid>
+
+</ContentPage>
