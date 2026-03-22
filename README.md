@@ -13,7 +13,7 @@
 
 - .NET 10 SDK
 - MAUI workload (`dotnet workload install maui`)
-- Android SDK (Android ビルド用)
+- Android SDK（Android ビルド用）
 - Xcode (iOS ビルド用、macOS のみ)
 
 ## セットアップ
@@ -25,7 +25,15 @@ git clone https://github.com/keisato848/NotifyDispatchApp-public.git
 cd NotifyDispatchApp-public
 ```
 
-### 2. API キーの設定
+### 2. Android SDK の準備
+
+Android ビルドには API level 36 の SDK プラットフォームが必要です。以下のコマンドで自動インストールできます：
+
+```bash
+dotnet build -t:InstallAndroidDependencies -f net10.0-android NotifyDispatchApp/NotifyDispatchApp.csproj -p:AcceptAndroidSDKLicenses=true
+```
+
+### 3. API キーの設定
 
 #### appsettings.json
 
@@ -58,7 +66,7 @@ cd NotifyDispatchApp-public
 
 `NotifyDispatchApp/Platforms/Android/AndroidManifest.xml` で `YOUR_GOOGLE_MAPS_API_KEY` を実際のキーに置き換えてください。
 
-### 3. ビルド・実行
+### 4. ビルド・実行
 
 ```bash
 # restore
